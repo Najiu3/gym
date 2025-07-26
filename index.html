@@ -6,29 +6,58 @@
   <meta name="description" content="Empowering Afghan girls and refugee youth through education and leadership">
   <title>The School of Freedom</title>
   <style>
+    :root {
+      --primary: #1A237E;
+      --accent: #FFC107;
+      --light: #FFFFFF;
+    }
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #ffffff;
-      color: #1A237E;
+      background-color: var(--light);
+      color: var(--primary);
     }
     header {
-      background-color: #1A237E;
-      color: #fff;
+      background-color: var(--primary);
+      color: var(--light);
       padding: 2rem;
       text-align: center;
     }
     nav {
-      background-color: #FFC107;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--accent);
       padding: 1rem;
-      text-align: center;
     }
-    nav a {
-      color: #1A237E;
-      text-decoration: none;
-      margin: 0 15px;
+    nav .logo {
       font-weight: bold;
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 15px;
+    }
+    nav ul li a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    nav .menu-toggle span {
+      background: var(--primary);
+      height: 3px;
+      width: 25px;
+      margin: 3px 0;
     }
     section {
       padding: 2rem;
@@ -42,7 +71,7 @@
       margin-top: 1rem;
     }
     .cta button {
-      background-color: #1A237E;
+      background-color: var(--primary);
       color: white;
       border: none;
       padding: 1rem 2rem;
@@ -50,10 +79,24 @@
       cursor: pointer;
     }
     footer {
-      background-color: #1A237E;
+      background-color: var(--primary);
       color: white;
       text-align: center;
       padding: 1.5rem;
+    }
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: var(--accent);
+      }
+      nav ul.active {
+        display: flex;
+      }
+      nav .menu-toggle {
+        display: flex;
+      }
     }
   </style>
 </head>
@@ -64,13 +107,21 @@
   </header>
 
   <nav>
-    <a href="#about">About</a>
-    <a href="#programs">Programs</a>
-    <a href="#team">Our Team</a>
-    <a href="#donate">Donate</a>
-    <a href="#petition">Petition</a>
-    <a href="#press">Press</a>
-    <a href="#contact">Contact</a>
+    <div class="logo">School of Freedom</div>
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul id="nav-menu">
+      <li><a href="#about">About</a></li>
+      <li><a href="#programs">Programs</a></li>
+      <li><a href="#team">Our Team</a></li>
+      <li><a href="#donate">Donate</a></li>
+      <li><a href="#petition">Petition</a></li>
+      <li><a href="#press">Press</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
   </nav>
 
   <section id="about">
@@ -135,5 +186,12 @@
     <p>“When you educate a girl, you change the world.”</p>
     <p>&copy; 2025 The School of Freedom</p>
   </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('nav-menu');
+      menu.classList.toggle('active');
+    }
+  </script>
 </body>
 </html>

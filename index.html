@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Empowering Afghan girls and refugee youth through education and leadership">
   <title>The School of Freedom</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #2c3e50;
-      --accent: #f39c12;
-      --background: #fdfdfd;
-      --text: #2c3e50;
-      --light-accent: #ffe9c5;
+      --primary-color: #ffffff;
+      --accent-color: #ff6b35;
+      --text-color: #1c1c1c;
+      --overlay-color: rgba(0, 0, 0, 0.6);
     }
 
     * {
@@ -23,55 +22,92 @@
 
     body {
       font-family: 'Open Sans', sans-serif;
-      background-color: var(--background);
-      color: var(--text);
+      color: var(--text-color);
+      background-color: var(--primary-color);
       line-height: 1.6;
     }
 
     header {
-      background: linear-gradient(to right, #2c3e50, #34495e);
-      color: white;
-      padding: 3rem 1rem;
+      position: relative;
+      background: url('https://images.unsplash.com/photo-1529070538774-1843cb3265df') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
+      color: white;
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--overlay-color);
+      z-index: 1;
+    }
+
+    header .content {
+      position: relative;
+      z-index: 2;
     }
 
     header h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 2.8rem;
+      font-size: 3rem;
       margin-bottom: 1rem;
     }
 
+    header p {
+      font-size: 1.2rem;
+    }
+
     nav {
+      position: absolute;
+      top: 0;
+      width: 100%;
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      background-color: var(--accent);
       padding: 1rem 2rem;
+      background: transparent;
+      z-index: 3;
     }
 
     nav .logo {
       font-weight: bold;
-      font-size: 1.5rem;
       color: white;
+      font-size: 1.4rem;
     }
 
     nav ul {
-      display: flex;
-      flex-wrap: wrap;
       list-style: none;
-      gap: 20px;
+      display: flex;
+      gap: 1.5rem;
     }
 
     nav ul li a {
       color: white;
       text-decoration: none;
       font-weight: 600;
-      transition: opacity 0.3s;
+      transition: color 0.3s;
     }
 
     nav ul li a:hover {
-      opacity: 0.8;
+      color: var(--accent-color);
+    }
+
+    .cta-button {
+      margin-top: 1.5rem;
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
     }
 
     section {
@@ -84,59 +120,39 @@
       font-family: 'Playfair Display', serif;
       font-size: 2rem;
       margin-bottom: 1rem;
-      border-bottom: 2px solid var(--accent);
-      display: inline-block;
-    }
-
-    .cta {
-      text-align: center;
-      margin-top: 2rem;
-    }
-
-    .cta button {
-      background-color: var(--primary);
-      color: white;
-      border: none;
-      padding: 1rem 2rem;
-      font-size: 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    footer {
-      background-color: var(--primary);
-      color: white;
-      padding: 2rem 1rem;
-      text-align: center;
-      font-size: 0.9rem;
-    }
-
-    ul {
-      padding-left: 1rem;
     }
 
     ul li {
-      margin: 0.5rem 0;
+      margin-bottom: 0.75rem;
+    }
+
+    footer {
+      background: #1c1c1c;
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
     }
 
     @media (max-width: 768px) {
       nav ul {
         flex-direction: column;
+        background-color: rgba(0,0,0,0.8);
+        position: absolute;
+        top: 60px;
+        right: 0;
         width: 100%;
-        margin-top: 1rem;
+        display: none;
+      }
+      nav ul.show {
+        display: flex;
       }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>The School of Freedom</h1>
-    <p>Empowering Afghan girls and refugee youth through education and leadership</p>
-  </header>
-
   <nav>
     <div class="logo">School of Freedom</div>
-    <ul>
+    <ul id="navLinks">
       <li><a href="#about">About</a></li>
       <li><a href="#programs">Programs</a></li>
       <li><a href="#team">Our Team</a></li>
@@ -146,6 +162,14 @@
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
+
+  <header>
+    <div class="content">
+      <h1>School of Freedom</h1>
+      <p>Nurturing Dreams, Empowering Lives: Second World Girls, First in Our Hearts.</p>
+      <button class="cta-button">Courses</button>
+    </div>
+  </header>
 
   <section id="about">
     <h2>About Us</h2>
@@ -178,17 +202,13 @@
   <section id="donate">
     <h2>Donate</h2>
     <p>Your donations help us provide school supplies, teacher stipends, and internet access for Afghan girls. Every contribution helps a girl learn.</p>
-    <div class="cta">
-      <button>Donate Now</button>
-    </div>
+    <div class="cta-button">Donate Now</div>
   </section>
 
   <section id="petition">
     <h2>Sign the Petition</h2>
     <p>Support our efforts to launch a dual-immersion charter school for Afghan and refugee students in California.</p>
-    <div class="cta">
-      <button>Sign the Petition</button>
-    </div>
+    <div class="cta-button">Sign the Petition</div>
   </section>
 
   <section id="press">

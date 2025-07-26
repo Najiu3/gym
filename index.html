@@ -8,10 +8,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary-color: #ffffff;
+      --primary-color: #fffaf7;
       --accent-color: #ff6b35;
       --text-color: #1c1c1c;
       --overlay-color: rgba(0, 0, 0, 0.6);
+      --soft-grey: #f2f2f2;
     }
 
     * {
@@ -20,11 +21,15 @@
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: 'Open Sans', sans-serif;
       color: var(--text-color);
       background-color: var(--primary-color);
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     header {
@@ -52,6 +57,7 @@
     header .content {
       position: relative;
       z-index: 2;
+      padding: 0 1rem;
     }
 
     header h1 {
@@ -61,19 +67,19 @@
     }
 
     header p {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
     }
 
     nav {
-      position: absolute;
+      position: fixed;
       top: 0;
       width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 1rem 2rem;
-      background: transparent;
-      z-index: 3;
+      background-color: rgba(28, 28, 28, 0.9);
+      z-index: 999;
     }
 
     nav .logo {
@@ -85,7 +91,7 @@
     nav ul {
       list-style: none;
       display: flex;
-      gap: 1.5rem;
+      gap: 1.2rem;
     }
 
     nav ul li a {
@@ -99,6 +105,15 @@
       color: var(--accent-color);
     }
 
+    #menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+
     .cta-button {
       margin-top: 1.5rem;
       background-color: var(--accent-color);
@@ -108,18 +123,27 @@
       font-size: 1rem;
       border-radius: 5px;
       cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .cta-button:hover {
+      background-color: #e95c28;
     }
 
     section {
-      padding: 4rem 2rem;
+      padding: 5rem 2rem;
       max-width: 1000px;
       margin: auto;
+      background-color: var(--soft-grey);
+      margin-bottom: 1rem;
+      border-radius: 8px;
     }
 
     section h2 {
       font-family: 'Playfair Display', serif;
-      font-size: 2rem;
+      font-size: 2.2rem;
       margin-bottom: 1rem;
+      color: var(--accent-color);
     }
 
     ul li {
@@ -136,15 +160,20 @@
     @media (max-width: 768px) {
       nav ul {
         flex-direction: column;
-        background-color: rgba(0,0,0,0.8);
+        background-color: #1c1c1c;
         position: absolute;
         top: 60px;
         right: 0;
         width: 100%;
         display: none;
       }
+
       nav ul.show {
         display: flex;
+      }
+
+      #menu-toggle {
+        display: block;
       }
     }
   </style>
@@ -152,6 +181,7 @@
 <body>
   <nav>
     <div class="logo">School of Freedom</div>
+    <button id="menu-toggle">☰</button>
     <ul id="navLinks">
       <li><a href="#about">About</a></li>
       <li><a href="#programs">Programs</a></li>
@@ -167,15 +197,14 @@
     <div class="content">
       <h1>School of Freedom</h1>
       <p>Nurturing Dreams, Empowering Lives: Second World Girls, First in Our Hearts.</p>
-      <button class="cta-button">Courses</button>
+      <a href="#programs"><button class="cta-button">Explore Programs</button></a>
     </div>
   </header>
 
   <section id="about">
     <h2>About Us</h2>
     <p>The School of Freedom is dedicated to fostering education and empowerment for Afghan girls, guiding them toward independence and job opportunities. The educational situation in Afghanistan has been deeply affected by years of conflict, political instability, and social constraints, particularly limiting girls' access to education.</p>
-    <p>With a focus on innovation, we offer tailored programs and mentorship that create a nurturing environment where girls can thrive both academically and professionally. Our expertise spans educational development, leadership training, and advocacy for gender equality. We are committed to breaking societal barriers and challenging norms to ensure that Afghan girls gain equal access to opportunities, enabling them to become influential leaders in their communities and contribute to a brighter future for Afghanistan.</p>
-    <p>In addition to supporting Afghan girls, The School of Freedom also provides education and tutoring for other students, ensuring that our programs reach as many learners as possible. Our commitment to education for all students underscores our belief that quality education is a powerful tool for transformation and growth.</p>
+    <p>We offer tailored programs and mentorship to create a nurturing environment where girls can thrive both academically and professionally. Our expertise spans educational development, leadership training, and advocacy for gender equality. We’re committed to breaking societal barriers to ensure Afghan girls gain equal access to opportunity.</p>
     <p>In the U.S., we support Afghan refugee youth through after-school tutoring, college prep, ESL mentorship, and are in the process of launching a dual-immersion charter school in Sacramento.</p>
   </section>
 
@@ -202,13 +231,13 @@
   <section id="donate">
     <h2>Donate</h2>
     <p>Your donations help us provide school supplies, teacher stipends, and internet access for Afghan girls. Every contribution helps a girl learn.</p>
-    <div class="cta-button">Donate Now</div>
+    <a href="#"><div class="cta-button">Donate Now</div></a>
   </section>
 
   <section id="petition">
     <h2>Sign the Petition</h2>
     <p>Support our efforts to launch a dual-immersion charter school for Afghan and refugee students in California.</p>
-    <div class="cta-button">Sign the Petition</div>
+    <a href="#"><div class="cta-button">Sign the Petition</div></a>
   </section>
 
   <section id="press">
@@ -229,5 +258,14 @@
     <p>“When you educate a girl, you change the world.”</p>
     <p>&copy; 2025 The School of Freedom</p>
   </footer>
+
+  <script>
+    const toggle = document.getElementById('menu-toggle');
+    const navLinks = document.getElementById('navLinks');
+
+    toggle.addEventListener('click', () => {
+      navLinks.classList.toggle('show');
+    });
+  </script>
 </body>
 </html>

@@ -5,97 +5,125 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Empowering Afghan girls and refugee youth through education and leadership">
   <title>The School of Freedom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #1A237E;
-      --accent: #FFC107;
-      --light: #FFFFFF;
+      --primary: #2c3e50;
+      --accent: #f39c12;
+      --background: #fdfdfd;
+      --text: #2c3e50;
+      --light-accent: #ffe9c5;
     }
-    body {
-      font-family: Arial, sans-serif;
+
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      background-color: var(--light);
-      color: var(--primary);
     }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
     header {
-      background-color: var(--primary);
-      color: var(--light);
-      padding: 2rem;
+      background: linear-gradient(to right, #2c3e50, #34495e);
+      color: white;
+      padding: 3rem 1rem;
       text-align: center;
     }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+    }
+
     nav {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
       background-color: var(--accent);
-      padding: 1rem;
+      padding: 1rem 2rem;
     }
+
     nav .logo {
       font-weight: bold;
-      color: var(--primary);
-      font-size: 1.2rem;
+      font-size: 1.5rem;
+      color: white;
     }
+
     nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
       display: flex;
-      gap: 15px;
+      flex-wrap: wrap;
+      list-style: none;
+      gap: 20px;
     }
+
     nav ul li a {
-      color: var(--primary);
+      color: white;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 600;
+      transition: opacity 0.3s;
     }
-    nav .menu-toggle {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
+
+    nav ul li a:hover {
+      opacity: 0.8;
     }
-    nav .menu-toggle span {
-      background: var(--primary);
-      height: 3px;
-      width: 25px;
-      margin: 3px 0;
-    }
+
     section {
-      padding: 2rem;
+      padding: 4rem 2rem;
       max-width: 1000px;
       margin: auto;
     }
-    .cta {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      margin-top: 1rem;
+
+    section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid var(--accent);
+      display: inline-block;
     }
+
+    .cta {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
     .cta button {
       background-color: var(--primary);
       color: white;
       border: none;
       padding: 1rem 2rem;
       font-size: 1rem;
+      border-radius: 5px;
       cursor: pointer;
     }
+
     footer {
       background-color: var(--primary);
       color: white;
+      padding: 2rem 1rem;
       text-align: center;
-      padding: 1.5rem;
+      font-size: 0.9rem;
     }
+
+    ul {
+      padding-left: 1rem;
+    }
+
+    ul li {
+      margin: 0.5rem 0;
+    }
+
     @media (max-width: 768px) {
       nav ul {
-        display: none;
         flex-direction: column;
         width: 100%;
-        background-color: var(--accent);
-      }
-      nav ul.active {
-        display: flex;
-      }
-      nav .menu-toggle {
-        display: flex;
+        margin-top: 1rem;
       }
     }
   </style>
@@ -108,12 +136,7 @@
 
   <nav>
     <div class="logo">School of Freedom</div>
-    <div class="menu-toggle" onclick="toggleMenu()">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <ul id="nav-menu">
+    <ul>
       <li><a href="#about">About</a></li>
       <li><a href="#programs">Programs</a></li>
       <li><a href="#team">Our Team</a></li>
@@ -186,12 +209,5 @@
     <p>“When you educate a girl, you change the world.”</p>
     <p>&copy; 2025 The School of Freedom</p>
   </footer>
-
-  <script>
-    function toggleMenu() {
-      const menu = document.getElementById('nav-menu');
-      menu.classList.toggle('active');
-    }
-  </script>
 </body>
 </html>

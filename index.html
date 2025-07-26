@@ -1,271 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Empowering Afghan girls and refugee youth through education and leadership">
-  <title>The School of Freedom</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary-color: #fffaf7;
-      --accent-color: #ff6b35;
-      --text-color: #1c1c1c;
-      --overlay-color: rgba(0, 0, 0, 0.6);
-      --soft-grey: #f2f2f2;
-    }
+import requests
+from bs4 import BeautifulSoup
+import json
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+def fetch_staff():
+    url = "https://www.cardinalsoccerclub.org/about/our-staff/15999"
+    response = requests.get(url)
+    response.raise_for_status()
+    soup = BeautifulSoup(response.text, "html.parser")
 
-    html {
-      scroll-behavior: smooth;
-    }
+    staff_data = {}
 
-    body {
-      font-family: 'Open Sans', sans-serif;
-      color: var(--text-color);
-      background-color: var(--primary-color);
-      line-height: 1.7;
-    }
+    # Go through each header (assumed to be h2 tags for sections)
+    for header in soup.find_all("h2"):
+        section_title = header.get_text(strip=True)
+        section_list = []
 
-    header {
-      position: relative;
-      background: url('https://images.unsplash.com/photo-1529070538774-1843cb3265df') no-repeat center center/cover;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: white;
-    }
+        for sibling in header.find_next_siblings():
+            if sibling.name == "h2":
+                break  # End of this section
+            if sibling.name in ["p", "div"]:
+                text = sibling.get_text(separator="\n", strip=True)
+                for line in text.split("\n"):
+                    if line:
+                        section_list.append(line)
 
-    header::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--overlay-color);
-      z-index: 1;
-    }
+        if section_list:
+            staff_data[section_title] = section_list
 
-    header .content {
-      position: relative;
-      z-index: 2;
-      padding: 0 1rem;
-    }
+    return staff_data
 
-    header h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
+def save_to_json(data, filename="cardinal_staff.json"):
+    with open(filename, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+    print(f"✅ Staff data saved to {filename}")
 
-    header p {
-      font-size: 1.25rem;
-    }
-
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background-color: rgba(28, 28, 28, 0.9);
-      z-index: 999;
-    }
-
-    nav .logo {
-      font-weight: bold;
-      color: white;
-      font-size: 1.4rem;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 1.2rem;
-    }
-
-    nav ul li a {
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.3s;
-    }
-
-    nav ul li a:hover {
-      color: var(--accent-color);
-    }
-
-    #menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1.8rem;
-      cursor: pointer;
-    }
-
-    .cta-button {
-      margin-top: 1.5rem;
-      background-color: var(--accent-color);
-      color: white;
-      border: none;
-      padding: 0.8rem 2rem;
-      font-size: 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .cta-button:hover {
-      background-color: #e95c28;
-    }
-
-    section {
-      padding: 5rem 2rem;
-      max-width: 1000px;
-      margin: auto;
-      background-color: var(--soft-grey);
-      margin-bottom: 1rem;
-      border-radius: 8px;
-    }
-
-    section h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.2rem;
-      margin-bottom: 1rem;
-      color: var(--accent-color);
-    }
-
-    ul li {
-      margin-bottom: 0.75rem;
-    }
-
-    footer {
-      background: #1c1c1c;
-      color: white;
-      text-align: center;
-      padding: 2rem 1rem;
-    }
-
-    @media (max-width: 768px) {
-      nav ul {
-        flex-direction: column;
-        background-color: #1c1c1c;
-        position: absolute;
-        top: 60px;
-        right: 0;
-        width: 100%;
-        display: none;
-      }
-
-      nav ul.show {
-        display: flex;
-      }
-
-      #menu-toggle {
-        display: block;
-      }
-    }
-  </style>
-</head>
-<body>
-  <nav>
-    <div class="logo">School of Freedom</div>
-    <button id="menu-toggle">☰</button>
-    <ul id="navLinks">
-      <li><a href="#about">About</a></li>
-      <li><a href="#programs">Programs</a></li>
-      <li><a href="#team">Our Team</a></li>
-      <li><a href="#donate">Donate</a></li>
-      <li><a href="#petition">Petition</a></li>
-      <li><a href="#press">Press</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-
-  <header>
-    <div class="content">
-      <h1>School of Freedom</h1>
-      <p>Nurturing Dreams, Empowering Lives: Second World Girls, First in Our Hearts.</p>
-      <a href="#programs"><button class="cta-button">Explore Programs</button></a>
-    </div>
-  </header>
-
-  <section id="about">
-    <h2>About Us</h2>
-    <p>The School of Freedom is dedicated to fostering education and empowerment for Afghan girls, guiding them toward independence and job opportunities. The educational situation in Afghanistan has been deeply affected by years of conflict, political instability, and social constraints, particularly limiting girls' access to education.</p>
-    <p>We offer tailored programs and mentorship to create a nurturing environment where girls can thrive both academically and professionally. Our expertise spans educational development, leadership training, and advocacy for gender equality. We’re committed to breaking societal barriers to ensure Afghan girls gain equal access to opportunity.</p>
-    <p>In the U.S., we support Afghan refugee youth through after-school tutoring, college prep, ESL mentorship, and are in the process of launching a dual-immersion charter school in Sacramento.</p>
-  </section>
-
-  <section id="programs">
-    <h2>Programs</h2>
-    <ul>
-      <li>Virtual learning for Afghan girls</li>
-      <li>Leadership and mentorship programs</li>
-      <li>ESL tutoring and college preparation</li>
-      <li>Student art and creative expression initiatives</li>
-    </ul>
-  </section>
-
-  <section id="team">
-    <h2>Meet the Team</h2>
-    <ul>
-      <li>Walid Jailani – Founder & Executive Director</li>
-      <li>Moheb Salemi – Communications Manager</li>
-      <li>Sadia – Principal (Afghanistan Program)</li>
-      <li>Robina Haqiqi, Jasmine, Ghezal Karma, Mariam Saleh, Hamid</li>
-    </ul>
-  </section>
-
-  <section id="donate">
-    <h2>Donate</h2>
-    <p>Your donations help us provide school supplies, teacher stipends, and internet access for Afghan girls. Every contribution helps a girl learn.</p>
-    <a href="#"><div class="cta-button">Donate Now</div></a>
-  </section>
-
-  <section id="petition">
-    <h2>Sign the Petition</h2>
-    <p>Support our efforts to launch a dual-immersion charter school for Afghan and refugee students in California.</p>
-    <a href="#"><div class="cta-button">Sign the Petition</div></a>
-  </section>
-
-  <section id="press">
-    <h2>Press & Media</h2>
-    <ul>
-      <li><a href="https://theaggie.org/2025/01/23/uc-davis-student-founds-school-of-freedom-to-educate-afghan-girls-amid-taliban-ban/" target="_blank">UC Davis Article</a></li>
-      <li><a href="https://www.ucdavis.edu/news/podcasts-and-shows/face-to-face/student-led-school-empowers-1200-afghan-girls" target="_blank">UC Davis Podcast</a></li>
-    </ul>
-  </section>
-
-  <section id="contact">
-    <h2>Contact Us</h2>
-    <p>Email: contact@schooloffreedom.org</p>
-    <p>Follow us on social media and sign up for our newsletter to stay informed.</p>
-  </section>
-
-  <footer>
-    <p>“When you educate a girl, you change the world.”</p>
-    <p>&copy; 2025 The School of Freedom</p>
-  </footer>
-
-  <script>
-    const toggle = document.getElementById('menu-toggle');
-    const navLinks = document.getElementById('navLinks');
-
-    toggle.addEventListener('click', () => {
-      navLinks.classList.toggle('show');
-    });
-  </script>
-</body>
-</html>
+if __name__ == "__main__":
+    try:
+        staff = fetch_staff()
+        save_to_json(staff)
+    except Exception as e:
+        print("❌ Error fetching staff data:", e)
